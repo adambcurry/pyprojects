@@ -1,0 +1,39 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+data = pd.read_csv('netflix_data.csv')
+
+data_moviesb = data['type'] == 'Movie' #gives true or false if type is movie
+data_movies = data[data_moviesb] #filters by type movie
+
+movies = data_movies.loc[:,['title', 'country', 'genre', 'release_year','duration']]
+
+short_movies_b = movies['duration'] < 60
+short_movies = movies[short_movies_b]
+
+
+colors = []
+
+for lab, row in movies.iterrows():
+    if row['genre'] == 'Children':
+        colors.append('red')
+    elif row['genre'] == 'Documentaries':
+        colors.append('blue')
+    elif row['genre'] == 'Stand-up':
+        colors.append('green')
+    else:
+        colors.append('black')
+
+plt.style.use('fivethirtyeight')
+fig = plt.figure(figsize=(12,8))
+
+x = movies['release_year']
+y = movies['duration']
+plt.scatter(x,y, c = colors)
+
+plt.title('Movie duration by year of release')
+plt.xlabel('Release year')
+plt.ylabel('Duration (min)')
+plt.leg
+
+plt.show()
